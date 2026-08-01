@@ -139,7 +139,7 @@ function main(config: ClashConfig): ClashConfig {
         "rule-providers": ruleProviders,
         rules: finalRules,
         sniffer: snifferConfig,
-        dns: buildDns({ fakeIPEnabled, ipv6Enabled, source: config.dns, proxies: config.proxies }),
+        dns: buildDns({ fakeIPEnabled, ipv6Enabled, source: config.dns }),
         tun: buildTunConfig(tunEnabled),
         "geodata-mode": true,
         "geox-url": geoxURL,
