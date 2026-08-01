@@ -54,3 +54,23 @@ test("uses generated DNS defaults when upstream DNS is absent", () => {
     assert.deepEqual(result.dns.nameserver, ["system", "223.5.5.5", "119.29.29.29", "180.184.1.1"]);
     assert.equal(result.dns["nameserver-policy"], undefined);
 });
+
+test("restores provider DNS policy when SubStore strips upstream DNS", () => {
+    const password = "test-provider-token";
+    const result = convert({
+        proxies: [
+            {
+                ...proxy,
+                server: "edge.quandao.com",
+                password,
+            },
+        ],
+    });
+
+    assert.deepEqual(result.dns["nameserver-policy"], {
+        "+.quandao.com": [
+            `https://doh.dohcore.com:2096/dns-query/${password}#skip-cert-verify=true`,
+            `https://doh.cloudflare-lab.com:2096/dns-query/${password}#skip-cert-verify=true`,
+        ],
+    });
+});

@@ -30,6 +30,7 @@ export interface ProxyNode {
     type?: string;
     server?: string;
     port?: number;
+    password?: string;
     [key: string]: unknown;
 }
 
