@@ -104,15 +104,17 @@ export interface TunConfig {
 }
 
 export interface DnsConfig {
-    enable: boolean;
-    ipv6: boolean;
-    "prefer-h3": boolean;
-    "enhanced-mode": "redir-host" | "fake-ip";
-    "default-nameserver": string[];
-    nameserver: string[];
-    fallback: string[];
-    "proxy-server-nameserver": string[];
+    enable?: boolean;
+    ipv6?: boolean;
+    "prefer-h3"?: boolean;
+    "enhanced-mode"?: "redir-host" | "fake-ip";
+    "default-nameserver"?: string[];
+    nameserver?: string[];
+    fallback?: string[];
+    "proxy-server-nameserver"?: string[];
     "fake-ip-filter"?: string[];
+    "nameserver-policy"?: Record<string, string | string[]>;
+    [key: string]: unknown;
 }
 
 export type RuleProviderType = "http" | "file";

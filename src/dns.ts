@@ -84,18 +84,32 @@ function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput
 export interface BuildDnsInput {
     fakeIPEnabled: boolean;
     ipv6Enabled: boolean;
+    source?: DnsConfig;
 }
 
 /**
  * 根据 fakeIP 和 IPv6 开关生成最终 DNS 配置。
+ * 上游订阅已声明的 DNS 字段优先，未声明的字段使用脚本默认值。
  * @param {BuildDnsInput} params - 构建参数
  * @param {boolean} params.fakeIPEnabled - 是否启用 fake-ip 模式
  * @param {boolean} params.ipv6Enabled - 是否启用 IPv6
+ * @param {DnsConfig=} params.source - 上游订阅的 DNS 配置
  * @returns {DnsConfig} DNS 配置对象
  */
-export function buildDns({ fakeIPEnabled, ipv6Enabled }: BuildDnsInput): DnsConfig {
-    if (fakeIPEnabled) {
-        return buildDnsConfig({ mode: "fake-ip", ipv6Enabled, fakeIpFilter: FAKE_IP_FILTER });
+export function buildDns({ fakeIPEnabled, ipv6Enabled, source }: BuildDnsInput): DnsConfig {
+    const defaults = fakeIPEnabled
+        ? buildDnsConfig({ mode: "fake-ip", ipv6Enabled, fakeIpFilter: FAKE_IP_FILTER })
+        : buildDnsConfig({ mode: "redir-host", ipv6Enabled });
+    const config = {
+        ...defaults,
+        ...source,
+        ipv6: ipv6Enabled,
+        "enhanced-mode": defaults["enhanced-mode"],
+    };
+
+    if (!fakeIPEnabled) {
+        delete config["fake-ip-filter"];
     }
-    return buildDnsConfig({ mode: "redir-host", ipv6Enabled });
+
+    return config;
 }
