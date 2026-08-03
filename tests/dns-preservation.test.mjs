@@ -38,10 +38,7 @@ test("preserves upstream DNS fields and fills missing defaults", () => {
     assert.deepEqual(result.dns.nameserver, upstreamDns.nameserver);
     assert.deepEqual(result.dns["nameserver-policy"], upstreamDns["nameserver-policy"]);
     assert.deepEqual(result.dns["fallback-filter"], upstreamDns["fallback-filter"]);
-    assert.deepEqual(result.dns["proxy-server-nameserver"], [
-        "https://dns.alidns.com/dns-query",
-        "tls://dot.pub",
-    ]);
+    assert.equal(result.dns["proxy-server-nameserver"], undefined);
     assert.equal(result.dns.ipv6, false);
     assert.equal(result.dns["enhanced-mode"], "fake-ip");
 });
@@ -53,4 +50,15 @@ test("uses generated DNS defaults when upstream DNS is absent", () => {
     assert.equal(result.dns["enhanced-mode"], "fake-ip");
     assert.deepEqual(result.dns.nameserver, ["system", "223.5.5.5", "119.29.29.29", "180.184.1.1"]);
     assert.equal(result.dns["nameserver-policy"], undefined);
+    assert.equal(result.dns["proxy-server-nameserver"], undefined);
+});
+
+test("preserves an upstream proxy server nameserver", () => {
+    const proxyServerNameserver = ["https://resolver.example/dns-query"];
+    const result = convert({
+        proxies: [proxy],
+        dns: { "proxy-server-nameserver": proxyServerNameserver },
+    });
+
+    assert.deepEqual(result.dns["proxy-server-nameserver"], proxyServerNameserver);
 });

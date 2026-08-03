@@ -68,7 +68,6 @@ function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput
             "tcp://208.67.222.222",
             "tcp://8.26.56.2",
         ],
-        "proxy-server-nameserver": ["https://dns.alidns.com/dns-query", "tls://dot.pub"],
     };
 
     if (fakeIpFilter) {
