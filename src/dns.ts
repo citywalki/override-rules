@@ -1,4 +1,4 @@
-import type { DnsConfig, SnifferConfig } from "./types";
+import type { DnsConfig, ProxyNode, SnifferConfig } from "./types";
 
 /**
  * 默认的 fake-ip 过滤域名列表。
@@ -77,6 +77,38 @@ function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput
     return config;
 }
 
+const DOGGYGO_SERVER_DOMAINS = ["quandao.com", "jiandaoyun.com"] as const;
+
+function buildDoggyGoNameserverPolicy(
+    proxies: ProxyNode[]
+): DnsConfig["nameserver-policy"] | undefined {
+    for (const proxy of proxies) {
+        const server = proxy.server?.toLowerCase();
+        const password = proxy.password;
+        if (
+            !server ||
+            typeof password !== "string" ||
+            password.length === 0 ||
+            !DOGGYGO_SERVER_DOMAINS.some(
+                (domain) => server === domain || server.endsWith(`.${domain}`)
+            )
+        ) {
+            continue;
+        }
+
+        const resolvers = [
+            `https://doh.dohcore.com:2096/dns-query/${password}#skip-cert-verify=true`,
+            `https://doh.cloudflare-lab.com:2096/dns-query/${password}#skip-cert-verify=true`,
+        ];
+        return {
+            "+.quandao.com": resolvers,
+            "+.jiandaoyun.com": resolvers,
+        };
+    }
+
+    return undefined;
+}
+
 /**
  * 构建 DNS 配置的输入参数类型（外部接口）。
  */
@@ -84,6 +116,8 @@ export interface BuildDnsInput {
     fakeIPEnabled: boolean;
     ipv6Enabled: boolean;
     source?: DnsConfig;
+    proxies: ProxyNode[];
+    doggyDnsEnabled: boolean;
 }
 
 /**
@@ -95,7 +129,13 @@ export interface BuildDnsInput {
  * @param {DnsConfig=} params.source - 上游订阅的 DNS 配置
  * @returns {DnsConfig} DNS 配置对象
  */
-export function buildDns({ fakeIPEnabled, ipv6Enabled, source }: BuildDnsInput): DnsConfig {
+export function buildDns({
+    fakeIPEnabled,
+    ipv6Enabled,
+    source,
+    proxies,
+    doggyDnsEnabled,
+}: BuildDnsInput): DnsConfig {
     const defaults = fakeIPEnabled
         ? buildDnsConfig({ mode: "fake-ip", ipv6Enabled, fakeIpFilter: FAKE_IP_FILTER })
         : buildDnsConfig({ mode: "redir-host", ipv6Enabled });
@@ -105,6 +145,13 @@ export function buildDns({ fakeIPEnabled, ipv6Enabled, source }: BuildDnsInput):
         ipv6: ipv6Enabled,
         "enhanced-mode": defaults["enhanced-mode"],
     };
+
+    if (doggyDnsEnabled && source?.["nameserver-policy"] === undefined) {
+        const doggyGoPolicy = buildDoggyGoNameserverPolicy(proxies);
+        if (doggyGoPolicy) {
+            config["nameserver-policy"] = doggyGoPolicy;
+        }
+    }
 
     if (!fakeIPEnabled) {
         delete config["fake-ip-filter"];

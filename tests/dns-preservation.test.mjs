@@ -5,8 +5,8 @@ import vm from "node:vm";
 
 const script = await readFile(new URL("../convert.js", import.meta.url), "utf8");
 
-function convert(config) {
-    const context = { $arguments: { grouptype: "0" } };
+function convert(config, args = {}) {
+    const context = { $arguments: { grouptype: "0", ...args } };
     vm.runInNewContext(script, context);
     return structuredClone(context.main(structuredClone(config)));
 }
@@ -61,4 +61,66 @@ test("preserves an upstream proxy server nameserver", () => {
     });
 
     assert.deepEqual(result.dns["proxy-server-nameserver"], proxyServerNameserver);
+});
+
+test("does not generate DoggyGo DNS policy unless explicitly enabled", () => {
+    const doggyProxy = {
+        ...proxy,
+        type: "anytls",
+        server: "1hk.quandao.com",
+        password: "test-provider-token",
+    };
+
+    const result = convert({ proxies: [doggyProxy] });
+
+    assert.equal(result.dns["nameserver-policy"], undefined);
+});
+
+test("generates DoggyGo DNS policy from matching nodes when enabled", () => {
+    const doggyProxy = {
+        ...proxy,
+        type: "anytls",
+        server: "cdn.jiandaoyun.com",
+        password: "test-provider-token",
+    };
+
+    const result = convert({ proxies: [doggyProxy] }, { doggyDns: "true" });
+
+    const providerResolvers = [
+        "https://doh.dohcore.com:2096/dns-query/test-provider-token#skip-cert-verify=true",
+        "https://doh.cloudflare-lab.com:2096/dns-query/test-provider-token#skip-cert-verify=true",
+    ];
+    assert.deepEqual(result.dns["nameserver-policy"], {
+        "+.quandao.com": providerResolvers,
+        "+.jiandaoyun.com": providerResolvers,
+    });
+    assert.equal(result.dns["proxy-server-nameserver"], undefined);
+});
+
+test("leaves DNS policy unchanged when DoggyGo DNS has no matching node", () => {
+    const result = convert({ proxies: [proxy] }, { doggyDns: "true" });
+
+    assert.equal(result.dns["nameserver-policy"], undefined);
+});
+
+test("keeps an upstream DNS policy when DoggyGo DNS is enabled", () => {
+    const upstreamPolicy = {
+        "+.provider.example": ["https://provider.example/dns-query"],
+    };
+    const result = convert(
+        {
+            proxies: [
+                {
+                    ...proxy,
+                    type: "anytls",
+                    server: "1hk.quandao.com",
+                    password: "test-provider-token",
+                },
+            ],
+            dns: { "nameserver-policy": upstreamPolicy },
+        },
+        { doggyDns: "true" }
+    );
+
+    assert.deepEqual(result.dns["nameserver-policy"], upstreamPolicy);
 });

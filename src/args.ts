@@ -32,6 +32,7 @@ export function buildFeatureFlags(args: ScriptArgs): FeatureFlags {
         quicEnabled: parseBool(args.quic),
         regexFilter: parseBool(args.regex),
         tunEnabled: parseBool(args.tun),
+        doggyDnsEnabled: parseBool(args.doggyDns),
         countryThreshold: parseNumber(args.threshold, 2),
     };
 }

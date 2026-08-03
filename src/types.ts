@@ -9,6 +9,7 @@ export interface ScriptArgs {
     regex?: string;
     threshold?: string;
     tun?: string;
+    doggyDns?: string;
 }
 
 export type GroupType = 0 | 1 | 2;
@@ -22,6 +23,7 @@ export interface FeatureFlags {
     quicEnabled: boolean;
     regexFilter: boolean;
     countryThreshold: number;
+    doggyDnsEnabled: boolean;
     tunEnabled: boolean;
 }
 
