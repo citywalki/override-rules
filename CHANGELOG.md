@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.5.6](https://github.com/powerfullz/override-rules/compare/src-v2.5.5...src-v2.5.6) (2026-08-03)
+
+
+### Other
+
+- #123 修复: 避免代理节点绕过 DNS 策略 ([874d14a](https://github.com/powerfullz/override-rules/commit/874d14af22adc4f0c8160a1718f505425a480cbe))
+- Revert "修复: 恢复供应商 DNS 策略"
+
+This reverts commit 69e9529a539814b50c31997bcafe60a5364a491e. ([3bba328](https://github.com/powerfullz/override-rules/commit/3bba328ee4860db782cbe3d2f5fe2dd774ad3d24))
+- 恢复供应商 DNS 策略 ([69e9529](https://github.com/powerfullz/override-rules/commit/69e9529a539814b50c31997bcafe60a5364a491e))
+- 保留上游 DNS 配置 ([23bdc8e](https://github.com/powerfullz/override-rules/commit/23bdc8ec7ee351666c6b1509441c0b14f5851f18))
 ## [2.5.5](https://github.com/powerfullz/override-rules/compare/src-v2.5.4...src-v2.5.5) (2026-06-30)
 
 
