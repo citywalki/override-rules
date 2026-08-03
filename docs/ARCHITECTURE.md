@@ -127,6 +127,16 @@ flowchart TD
 
 所有 URL 参数都有明确的默认值。`buildFeatureFlags()` 负责解析并回填默认值，产出类型安全的 `FeatureFlags` 对象。这使得下游模块无需关心参数来源或缺失情况——每个标志都有确定的值。
 
+### 分流优先级
+
+`buildRules()` 按照“越确定越优先”的顺序生成规则：本机与局域网 → 协议开关 → 隐私与广告 → 兼容性直连 → 国内服务直连 → 境外专项服务 → 静态资源 → GFW 安全网 → 中国大陆 IP 兜底 → `MATCH`。
+
+- 国内服务统一由 `GEOSITE,cn,DIRECT` 处理，不为哔哩哔哩、微博等国内服务生成独立策略组。
+- 境外 AI 使用 `GEOSITE,category-ai-!cn`，加密货币使用 `GEOSITE,category-cryptocurrency`；服务规则优先于通用静态资源，保证同一服务出口一致。
+- Steam、Google FCM、Google Play 中国服务、Microsoft 中国服务与 Apple 中国服务的明确直连规则位于对应厂商大类之前。
+- `GFWList` 位于 `GEOIP,cn` 之前，避免已知受阻域名因异常解析到中国大陆 IP 而误直连；`MATCH` 始终作为最后一条兜底。
+- `quic=false` 时，公网 UDP 443 会被拒绝，DNS 同时关闭 `prefer-h3`；局域网规则位于 QUIC 规则之前。
+
 ### YAML Generator 的参数
 
 静态 YAML 配置文件通过 `scripts/yaml_generator/generator.ts` 穷举参数组合生成：

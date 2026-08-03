@@ -42,6 +42,7 @@ export const snifferConfig: SnifferConfig = {
 interface BuildDnsConfigInput {
     mode: "redir-host" | "fake-ip";
     ipv6Enabled: boolean;
+    preferH3: boolean;
     fakeIpFilter?: string[];
 }
 
@@ -53,11 +54,16 @@ interface BuildDnsConfigInput {
  * @param {string[]=} params.fakeIpFilter - fake-ip 过滤域名列表（可选）
  * @returns {DnsConfig} DNS 配置对象
  */
-function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput): DnsConfig {
+function buildDnsConfig({
+    mode,
+    ipv6Enabled,
+    preferH3,
+    fakeIpFilter,
+}: BuildDnsConfigInput): DnsConfig {
     const config: DnsConfig = {
         enable: true,
         ipv6: ipv6Enabled,
-        "prefer-h3": true,
+        "prefer-h3": preferH3,
         "enhanced-mode": mode,
         "default-nameserver": ["119.29.29.29", "223.5.5.5"],
         nameserver: ["system", "223.5.5.5", "119.29.29.29", "180.184.1.1"],
@@ -115,6 +121,7 @@ function buildDoggyGoNameserverPolicy(
 export interface BuildDnsInput {
     fakeIPEnabled: boolean;
     ipv6Enabled: boolean;
+    quicEnabled: boolean;
     source?: DnsConfig;
     proxies: ProxyNode[];
     doggyDnsEnabled: boolean;
@@ -132,13 +139,19 @@ export interface BuildDnsInput {
 export function buildDns({
     fakeIPEnabled,
     ipv6Enabled,
+    quicEnabled,
     source,
     proxies,
     doggyDnsEnabled,
 }: BuildDnsInput): DnsConfig {
     const defaults = fakeIPEnabled
-        ? buildDnsConfig({ mode: "fake-ip", ipv6Enabled, fakeIpFilter: FAKE_IP_FILTER })
-        : buildDnsConfig({ mode: "redir-host", ipv6Enabled });
+        ? buildDnsConfig({
+              mode: "fake-ip",
+              ipv6Enabled,
+              preferH3: quicEnabled,
+              fakeIpFilter: FAKE_IP_FILTER,
+          })
+        : buildDnsConfig({ mode: "redir-host", ipv6Enabled, preferH3: quicEnabled });
     const config = {
         ...defaults,
         ...source,

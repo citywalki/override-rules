@@ -41,15 +41,6 @@ export function buildBaseLists({
         "DIRECT"
     );
 
-    const defaultProxiesDirect = buildList(
-        "DIRECT",
-        landing && PROXY_GROUPS.LANDING,
-        suffixedCountryNames,
-        lowCost && PROXY_GROUPS.LOW_COST,
-        PROXY_GROUPS.SELECT,
-        PROXY_GROUPS.MANUAL
-    );
-
     const defaultFallback = buildList(landing && PROXY_GROUPS.LANDING, suffixedCountryNames);
 
     const frontProxySelector = buildList(
@@ -60,7 +51,6 @@ export function buildBaseLists({
 
     return {
         defaultProxies,
-        defaultProxiesDirect,
         defaultSelector,
         defaultFallback,
         frontProxySelector,

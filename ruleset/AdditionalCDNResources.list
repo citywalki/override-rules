@@ -1,7 +1,6 @@
 # 一些我个人收集的，符合「静态资源」代理组用途的域名
 DOMAIN,production.cloudflare.docker.com
 DOMAIN,dl.flathub.org
-DOMAIN-SUFFIX,data.microsoft.com
 DOMAIN,assets.ppy.sh
 DOMAIN,autoupdate.termius.com
 DOMAIN,update.ayugram.one
@@ -17,7 +16,6 @@ DOMAIN,dl.tailscale.com
 DOMAIN,updates-cdn.bravesoftware.com
 DOMAIN,updates.bravesoftware.com
 DOMAIN,dl.brave.com
-DOMAIN,referrals.brave.com
 
 # Spotify
 DOMAIN-SUFFIX,scdn.co
