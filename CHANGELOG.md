@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.5.7](https://github.com/powerfullz/override-rules/compare/src-v2.5.6...src-v2.5.7) (2026-08-03)
+
+
+### Other
+
+- #123 修复: 恢复狗狗机场 DNS 策略 ([257ee84](https://github.com/powerfullz/override-rules/commit/257ee84028083743fbb5f3e862a1b2e7c32325a0))
 ## [2.5.6](https://github.com/powerfullz/override-rules/compare/src-v2.5.5...src-v2.5.6) (2026-08-03)
 
 
