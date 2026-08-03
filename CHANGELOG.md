@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.0](https://github.com/powerfullz/override-rules/compare/src-v2.5.7...src-v3.0.0) (2026-08-03)
+
+
+### Other
+
+- Commit ([1c4e4a0](https://github.com/powerfullz/override-rules/commit/1c4e4a0f199e32177af0dbd820f0f7155843b63f))
 ## [2.5.7](https://github.com/powerfullz/override-rules/compare/src-v2.5.6...src-v2.5.7) (2026-08-03)
 
 
@@ -293,14 +299,7 @@ This reverts commit 69e9529a539814b50c31997bcafe60a5364a491e. ([3bba328](https:/
 ### Refactoring
 
 - 移除影音娱乐和成人内容代理组 ([1f5e5a3](https://github.com/powerfullz/override-rules/commit/1f5e5a3471fd1f92f84dc9bfa9394bc89f344526))
-## [2.0.15](https://github.com/powerfullz/override-rules/compare/src-v2.0.14...src-v2.0.15) (2026-04-26)
-
-
-### Chores
-
-- Migrate tag prefix from v to src-v ([4eef4b8](https://github.com/powerfullz/override-rules/commit/4eef4b8fa19327ddaeb8f34e8564b89a34ae8335))
-- Refine icons for better visual effect ([53b2b4b](https://github.com/powerfullz/override-rules/commit/53b2b4b9d4d18d2354ecb231c36b29a2125c295b))
-## [2.0.14](https://github.com/powerfullz/override-rules/compare/src-v2.0.4...src-v2.0.14) (2026-04-26)
+## [2.0.15](https://github.com/powerfullz/override-rules/compare/...src-v2.0.15) (2026-04-26)
 
 
 ### Bug Fixes
@@ -310,88 +309,8 @@ This reverts commit 69e9529a539814b50c31997bcafe60a5364a491e. ([3bba328](https:/
 - 更新构建目标至 ES2025 ([9be6c8c](https://github.com/powerfullz/override-rules/commit/9be6c8c29ec465e336a2fb7133bceab746985fa9))
 - Jsdelivr purge 405 error ([a1f742d](https://github.com/powerfullz/override-rules/commit/a1f742d3e8c42271f7b0499da225fe1003d5c5fa))
 - 修复 load-balance 的构建逻辑 ([1bc77a1](https://github.com/powerfullz/override-rules/commit/1bc77a174fe89a1a9544036e36f51cb221cfb4d2))
-
-
-### CI
-
-- Update publish text ([f7aa12a](https://github.com/powerfullz/override-rules/commit/f7aa12a9345bb5a2c55c45f6d699b695abc1d515))
-
-
-### Chores
-
-- 更新 ESLint 和 TypeScript 配置以支持 ES2025 ([9465a51](https://github.com/powerfullz/override-rules/commit/9465a515f793806e46860cdb5c91d9bf62846a2a))
-- 移除版本同步脚本和相关步骤，更新版本号至 2.0.9 ([0515232](https://github.com/powerfullz/override-rules/commit/0515232f17ee3c6d3349511350cd5a27d71bd0ae))
-- 调整 CI 顺序 ([3d22de0](https://github.com/powerfullz/override-rules/commit/3d22de0890c027606e85a1139358dc251531ec15))
-- Migrate ESLint config to MJS ([0571efe](https://github.com/powerfullz/override-rules/commit/0571efe839dff2b2f39bc3325f8194dd31c558ff))
-- Upgrade deps and align CI runtime ([65b9d0a](https://github.com/powerfullz/override-rules/commit/65b9d0a5281c77e90238aa6f33d5b46c608115b3))
-- Release v2.0.7 ([85d33de](https://github.com/powerfullz/override-rules/commit/85d33de169317b553211e2efe5d27b8b0a568736))
-- Migrate to cdn.jsdelivr domain ([395027a](https://github.com/powerfullz/override-rules/commit/395027a41f13db0f7efdf409b22af1aed9e220c1))
-- Release v2.0.6 ([b72687d](https://github.com/powerfullz/override-rules/commit/b72687d309025f8505f4cd3e7e84f32a0ba19291))
-- Setup husky pre-commit and fix ci format check ([6c07a88](https://github.com/powerfullz/override-rules/commit/6c07a88265f0a8463ca9c5c5f7e64d1d3dcd24c3))
-
-
-### Documentation
-
-- 新增贡献者指南和自定义指南 ([d821e0e](https://github.com/powerfullz/override-rules/commit/d821e0e417cacf87f85cc457a44e9a11884799da))
-- Update docs for AI Agents ([d00239f](https://github.com/powerfullz/override-rules/commit/d00239fbe75f661bf3e2e7e6bbd32b7c93d6399f))
-
-
-### Features
-
-- Optimize proxy region regex and add NL/TR regions ([9df4f52](https://github.com/powerfullz/override-rules/commit/9df4f521d57e3d11211565a215e67766bad54fda))
-- Add automatic publishing system ([c3f331c](https://github.com/powerfullz/override-rules/commit/c3f331c543292c7b24dca1ce1952139cc8b5f4f5))
-- 添加版本同步功能，自动根据 Git 标签更新 package.json 和 package-lock.json 的版本号 ([bbae664](https://github.com/powerfullz/override-rules/commit/bbae6640918e507e695f183b8bd45708feccc912))
-- 将解析函数移至 utils.ts，简化 args.ts 和 selectors.ts ([f465521](https://github.com/powerfullz/override-rules/commit/f465521ed4fee7f46eefa00ed6a48655873b6add))
-
-
-### Other
-
-- Update AI service icon ([a38dcac](https://github.com/powerfullz/override-rules/commit/a38dcac494496a6e0914e34aeac4f0c8cd5c9998))
-- 暂时移除荷兰和土耳其的国家元数据 ([6b77e3d](https://github.com/powerfullz/override-rules/commit/6b77e3dce90e32e8a99c81c33016d17f154d8243))
-- Remove `lazy: false` directive ([33c5651](https://github.com/powerfullz/override-rules/commit/33c5651fda0d9efb6e4c8e018fef8a78a3839d74))
-- Configure Dependabot for npm and GitHub Actions
-
-Updated Dependabot configuration to include npm and GitHub Actions updates with specific schedules and labels. ([1fd9521](https://github.com/powerfullz/override-rules/commit/1fd95216750685d94a4327524682b79c6600ba8e))
-
-
-### Refactoring
-
-- Centralize special node matchers ([0dca9bd](https://github.com/powerfullz/override-rules/commit/0dca9bd2fdd310f1b5005a4880265da42f513dce))
-- Refactor file structure for better maintainability ([0850607](https://github.com/powerfullz/override-rules/commit/0850607a862a13c17fd7a7bb2ac642bf405686d3))
-## [2.0.4](https://github.com/powerfullz/override-rules/compare/src-v2.0.3...src-v2.0.4) (2026-04-20)
-
-
-### Bug Fixes
-
 - Remove top-level await in build.ts ([1e5791e](https://github.com/powerfullz/override-rules/commit/1e5791ea327a7fadd2716127e4b8e03ac3ee9de1))
-## [2.0.3](https://github.com/powerfullz/override-rules/compare/src-v2.0.2...src-v2.0.3) (2026-04-20)
-
-
-### Bug Fixes
-
 - Format bug ([72d1fb9](https://github.com/powerfullz/override-rules/commit/72d1fb9ba795f6829d1b4f422e1a277f606a934b))
-## [2.0.2](https://github.com/powerfullz/override-rules/compare/src-v2.0.0...src-v2.0.2) (2026-04-20)
-
-
-### CI
-
-- Update release note links to use gcore jsdelivr and chinese text ([c552267](https://github.com/powerfullz/override-rules/commit/c5522678718d77987ad65ab5994ecbea48ac40bb))
-
-
-### Chores
-
-- Release v2.0.2 ([6538ff8](https://github.com/powerfullz/override-rules/commit/6538ff8f29a003879797bd0f24e0519d304f0b58))
-- Optimize build process and configure dist root release for jsDelivr ([562bfd1](https://github.com/powerfullz/override-rules/commit/562bfd197fd2a4ce275a5b43640843c1a8e7b4a5))
-
-
-### Documentation
-
-- Update docs ([232c767](https://github.com/powerfullz/override-rules/commit/232c767a7c3e255c53e7e7eed645c8c3d0f9ed4d))
-## [2.0.0](https://github.com/powerfullz/override-rules/compare/...src-v2.0.0) (2026-04-20)
-
-
-### Bug Fixes
-
 - Re-introduce GLOBAL proxy group ([0b0b505](https://github.com/powerfullz/override-rules/commit/0b0b505b419b3d5725ede4c8a75461f4aa441163))
 - 优化前置代理选择器的构建逻辑 ([dd0c181](https://github.com/powerfullz/override-rules/commit/dd0c18163bbde935dab331ef96d73aa58c77ad98))
 - Refine front proxy selector ([f5e26ec](https://github.com/powerfullz/override-rules/commit/f5e26ec21b49679b5ec70df7667ea7d0b4278dfa))
@@ -508,12 +427,27 @@ Updated Dependabot configuration to include npm and GitHub Actions updates with 
 
 ### CI
 
+- Update publish text ([f7aa12a](https://github.com/powerfullz/override-rules/commit/f7aa12a9345bb5a2c55c45f6d699b695abc1d515))
+- Update release note links to use gcore jsdelivr and chinese text ([c552267](https://github.com/powerfullz/override-rules/commit/c5522678718d77987ad65ab5994ecbea48ac40bb))
 - Update the name of CI task ([2911d3c](https://github.com/powerfullz/override-rules/commit/2911d3cd669ec1e6f93065e001a7f9386fc167ad))
 - 移除推送到 Forgejo 的步骤 ([89aa0d0](https://github.com/powerfullz/override-rules/commit/89aa0d0d3bb49d59ac2b37150e71e7bb8ad31e62))
 
 
 ### Chores
 
+- Migrate tag prefix from v to src-v ([4eef4b8](https://github.com/powerfullz/override-rules/commit/4eef4b8fa19327ddaeb8f34e8564b89a34ae8335))
+- Refine icons for better visual effect ([53b2b4b](https://github.com/powerfullz/override-rules/commit/53b2b4b9d4d18d2354ecb231c36b29a2125c295b))
+- 更新 ESLint 和 TypeScript 配置以支持 ES2025 ([9465a51](https://github.com/powerfullz/override-rules/commit/9465a515f793806e46860cdb5c91d9bf62846a2a))
+- 移除版本同步脚本和相关步骤，更新版本号至 2.0.9 ([0515232](https://github.com/powerfullz/override-rules/commit/0515232f17ee3c6d3349511350cd5a27d71bd0ae))
+- 调整 CI 顺序 ([3d22de0](https://github.com/powerfullz/override-rules/commit/3d22de0890c027606e85a1139358dc251531ec15))
+- Migrate ESLint config to MJS ([0571efe](https://github.com/powerfullz/override-rules/commit/0571efe839dff2b2f39bc3325f8194dd31c558ff))
+- Upgrade deps and align CI runtime ([65b9d0a](https://github.com/powerfullz/override-rules/commit/65b9d0a5281c77e90238aa6f33d5b46c608115b3))
+- Release v2.0.7 ([85d33de](https://github.com/powerfullz/override-rules/commit/85d33de169317b553211e2efe5d27b8b0a568736))
+- Migrate to cdn.jsdelivr domain ([395027a](https://github.com/powerfullz/override-rules/commit/395027a41f13db0f7efdf409b22af1aed9e220c1))
+- Release v2.0.6 ([b72687d](https://github.com/powerfullz/override-rules/commit/b72687d309025f8505f4cd3e7e84f32a0ba19291))
+- Setup husky pre-commit and fix ci format check ([6c07a88](https://github.com/powerfullz/override-rules/commit/6c07a88265f0a8463ca9c5c5f7e64d1d3dcd24c3))
+- Release v2.0.2 ([6538ff8](https://github.com/powerfullz/override-rules/commit/6538ff8f29a003879797bd0f24e0519d304f0b58))
+- Optimize build process and configure dist root release for jsDelivr ([562bfd1](https://github.com/powerfullz/override-rules/commit/562bfd197fd2a4ce275a5b43640843c1a8e7b4a5))
 - Bump version to 2.0.0 ([52300f3](https://github.com/powerfullz/override-rules/commit/52300f344f6261697f88c5e068eff5ca661facdb))
 - Stop tracking generated artifacts ([ae96f6a](https://github.com/powerfullz/override-rules/commit/ae96f6ab43a89b24e4ecb6382682d2e8e6de755c))
 - Update dependencies ([94ebc2d](https://github.com/powerfullz/override-rules/commit/94ebc2d2dabbcc402ee3a762fc36d35c7e0fc53b))
@@ -620,6 +554,9 @@ Updated Dependabot configuration to include npm and GitHub Actions updates with 
 
 ### Documentation
 
+- 新增贡献者指南和自定义指南 ([d821e0e](https://github.com/powerfullz/override-rules/commit/d821e0e417cacf87f85cc457a44e9a11884799da))
+- Update docs for AI Agents ([d00239f](https://github.com/powerfullz/override-rules/commit/d00239fbe75f661bf3e2e7e6bbd32b7c93d6399f))
+- Update docs ([232c767](https://github.com/powerfullz/override-rules/commit/232c767a7c3e255c53e7e7eed645c8c3d0f9ed4d))
 - Add AI agent guidelines and update build docs ([d01612b](https://github.com/powerfullz/override-rules/commit/d01612b26dc3137eb75e832eb800cbfbd09ac797))
 - Update fakeip default note ([0821a46](https://github.com/powerfullz/override-rules/commit/0821a46396e13b4a0a22441d641724a1444f8718))
 - 更新说明 ([d889d46](https://github.com/powerfullz/override-rules/commit/d889d46921f743ea8b3c7208d6f89f26bad17f9b))
@@ -657,6 +594,10 @@ fix: 修正 GooglePlayFix.list 中的域名后缀格式 ([718cf8f](https://githu
 
 ### Features
 
+- Optimize proxy region regex and add NL/TR regions ([9df4f52](https://github.com/powerfullz/override-rules/commit/9df4f521d57e3d11211565a215e67766bad54fda))
+- Add automatic publishing system ([c3f331c](https://github.com/powerfullz/override-rules/commit/c3f331c543292c7b24dca1ce1952139cc8b5f4f5))
+- 添加版本同步功能，自动根据 Git 标签更新 package.json 和 package-lock.json 的版本号 ([bbae664](https://github.com/powerfullz/override-rules/commit/bbae6640918e507e695f183b8bd45708feccc912))
+- 将解析函数移至 utils.ts，简化 args.ts 和 selectors.ts ([f465521](https://github.com/powerfullz/override-rules/commit/f465521ed4fee7f46eefa00ed6a48655873b6add))
 - 添加自动选择代理组 ([7fdd1a5](https://github.com/powerfullz/override-rules/commit/7fdd1a5a1e4cf45bb179d8c0b15072b693a3ec0e))
 - 使用 CDN_URL 常量节省脚本体积 ([989c888](https://github.com/powerfullz/override-rules/commit/989c88834b843c97635b51fac18f15b0f002f9c5))
 - 新增苹果服务代理组，移除 Onedrive 代理组 ([027268c](https://github.com/powerfullz/override-rules/commit/027268ca324e63a6f9fb8e804fe31cdfabaf4161))
@@ -778,6 +719,12 @@ fix: 修正 GooglePlayFix.list 中的域名后缀格式 ([718cf8f](https://githu
 
 ### Other
 
+- Update AI service icon ([a38dcac](https://github.com/powerfullz/override-rules/commit/a38dcac494496a6e0914e34aeac4f0c8cd5c9998))
+- 暂时移除荷兰和土耳其的国家元数据 ([6b77e3d](https://github.com/powerfullz/override-rules/commit/6b77e3dce90e32e8a99c81c33016d17f154d8243))
+- Remove `lazy: false` directive ([33c5651](https://github.com/powerfullz/override-rules/commit/33c5651fda0d9efb6e4c8e018fef8a78a3839d74))
+- Configure Dependabot for npm and GitHub Actions
+
+Updated Dependabot configuration to include npm and GitHub Actions updates with specific schedules and labels. ([1fd9521](https://github.com/powerfullz/override-rules/commit/1fd95216750685d94a4327524682b79c6600ba8e))
 - Auto Generate Files ([e32add9](https://github.com/powerfullz/override-rules/commit/e32add91468a24762f27ae126cc6f55b64648814))
 - Auto Generate Files ([d6a827f](https://github.com/powerfullz/override-rules/commit/d6a827f7715961abaffe06b52a65d2fa00f136bd))
 - Auto Generate Files ([b68a259](https://github.com/powerfullz/override-rules/commit/b68a2592dc3ac672c075a7fd2f864ea4687b3f82))
@@ -872,6 +819,8 @@ This reverts commit 8376c80b461f78c269ff37bb6a2a5ce6656b6a8a. ([d6322ce](https:/
 
 ### Refactoring
 
+- Centralize special node matchers ([0dca9bd](https://github.com/powerfullz/override-rules/commit/0dca9bd2fdd310f1b5005a4880265da42f513dce))
+- Refactor file structure for better maintainability ([0850607](https://github.com/powerfullz/override-rules/commit/0850607a862a13c17fd7a7bb2ac642bf405686d3))
 - Migrate convert pipeline to TypeScript and dist release flow ([34fd42b](https://github.com/powerfullz/override-rules/commit/34fd42bc08ae16ab6aec545ac3a5b2cd0d245677))
 - Migrate project structure to TypeScript workflow ([958fd90](https://github.com/powerfullz/override-rules/commit/958fd90ad730c5eb0bf435e44dd71c8632ad5b72))
 - Migrate convert.js to modular TypeScript pipeline ([aadc041](https://github.com/powerfullz/override-rules/commit/aadc0418fc879396f176cf43aa168d00297dab35))
