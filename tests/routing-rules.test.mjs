@@ -85,6 +85,9 @@ test("orders domestic, service, static, GFW, IP and final routing layers", () =>
     const privateIp = ruleIndex(rules, "GEOIP,private,DIRECT,no-resolve");
     const quicReject = ruleIndex(rules, "AND,((DST-PORT,443),(NETWORK,UDP)),REJECT");
     const steamDirect = ruleIndex(rules, "DOMAIN,steamcdn-a.akamaihd.net,DIRECT");
+    const synologyDirect = ruleIndex(rules, "DOMAIN-SUFFIX,synology.com,DIRECT");
+    const synologyMe = ruleIndex(rules, "DOMAIN-SUFFIX,synology.me,DIRECT");
+    const quickConnect = ruleIndex(rules, "DOMAIN-SUFFIX,quickconnect.to,DIRECT");
     const domestic = ruleIndex(rules, "GEOSITE,cn,DIRECT");
     const ai = ruleIndex(rules, "GEOSITE,category-ai-!cn,AI服务");
     const youtube = ruleIndex(rules, "GEOSITE,youtube,Youtube");
@@ -98,7 +101,11 @@ test("orders domestic, service, static, GFW, IP and final routing layers", () =>
     assert.ok(privateDomain < privateIp);
     assert.ok(privateIp < quicReject);
     assert.ok(quicReject < steamDirect);
-    assert.ok(steamDirect < domestic);
+    assert.ok(steamDirect < synologyDirect);
+    // 群晖 DDNS 与 QuickConnect 域名解析到家庭公网 IP，必须在国内兜底之前直连，避免落入 MATCH 走代理
+    assert.ok(synologyDirect < synologyMe);
+    assert.ok(synologyMe < quickConnect);
+    assert.ok(quickConnect < domestic);
     assert.ok(domestic < ai);
     assert.ok(ai < youtube);
     assert.ok(youtube < staticResources);

@@ -134,6 +134,7 @@ flowchart TD
 - 国内服务统一由 `GEOSITE,cn,DIRECT` 处理，不为哔哩哔哩、微博等国内服务生成独立策略组。
 - 境外 AI 使用 `GEOSITE,category-ai-!cn`，加密货币使用 `GEOSITE,category-cryptocurrency`；服务规则优先于通用静态资源，保证同一服务出口一致。
 - Steam、Google FCM、Google Play 中国服务、Microsoft 中国服务与 Apple 中国服务的明确直连规则位于对应厂商大类之前。
+- Synology 生态域名（`synology.com`、`synology.me`、`quickconnect.to`）显式直连：Loyalsoldier `direct.txt` 只覆盖 `synology-cn.com`，而 `checkip.synology.com`（DDNS 公网 IP 检测）若走代理会记录代理出口 IP；DDNS 域名解析到家庭公网 IP，走代理必然不可达。
 - `GFWList` 位于 `ChinaDirect` 之前，避免已知受阻域名被直连规则集误直连；`ChinaDirect`（Loyalsoldier direct.txt）与 `ChinaIP`（cncidr.txt）是 `geosite:cn`/`geoip:cn` 之外的独立第二数据源，即使 geodata 更新失败仍能兜住国内流量；`MATCH` 始终作为最后一条兜底。
 - `quic=false` 时，公网 UDP 443 会被拒绝，DNS 同时关闭 `prefer-h3`；局域网规则位于 QUIC 规则之前。
 
