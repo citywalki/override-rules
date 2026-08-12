@@ -135,8 +135,6 @@ export interface RuleProvider {
 export interface GeoxUrl {
     geoip?: string;
     geosite?: string;
-    mmdb?: string;
-    asn?: string;
 }
 
 export interface ClashProfile {
@@ -167,6 +165,8 @@ export interface ClashConfig {
     "find-process-mode"?: "off" | "strict" | "always";
     "log-level"?: "info" | "warning" | "error" | "debug" | "silent";
     "geodata-loader"?: "standard" | "memconservative";
+    "geo-auto-update"?: boolean;
+    "geo-update-interval"?: number;
     "external-controller"?: string;
     "disable-keep-alive"?: boolean;
     profile?: ClashProfile;
