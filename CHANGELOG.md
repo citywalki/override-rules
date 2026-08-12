@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.2](https://github.com/powerfullz/override-rules/compare/src-v3.0.1...src-v3.0.2) (2026-08-12)
+
+
+### Other
+
+- 群晖生态域名直连，防止 DDNS 记录代理 IP ([bb8ef0c](https://github.com/powerfullz/override-rules/commit/bb8ef0c286ca288d0c0a463af503180a4c0e0db8))
+- 忽略 .idea 目录 ([f8e1d6b](https://github.com/powerfullz/override-rules/commit/f8e1d6ba27924c30acc5dabcec8fd908ab456b27))
+- Full 配置启用 geodata 自动更新 ([5bf8c06](https://github.com/powerfullz/override-rules/commit/5bf8c06c554922114e92a1342a6403f1141952ab))
+- 国内流量多层兜底，防止进入代理兜底 ([164531b](https://github.com/powerfullz/override-rules/commit/164531beeef8d6ba34a5accb75abe2f7886ea930))
 ## [3.0.1](https://github.com/powerfullz/override-rules/compare/src-v3.0.0...src-v3.0.1) (2026-08-12)
 
 
