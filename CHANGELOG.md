@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.1](https://github.com/powerfullz/override-rules/compare/src-v3.0.0...src-v3.0.1) (2026-08-12)
+
+
+### Chores
+
+- 清理 E-Hentai 策略组遗留图标 ([3e57291](https://github.com/powerfullz/override-rules/commit/3e572915953e114ea31707c7e3b370a286e38958))
+
+
+### Features
+
+- 移除 PikPak网盘 策略组及分流规则 ([6133519](https://github.com/powerfullz/override-rules/commit/6133519f84cff4e9214dc56d9d73caf996e5f2f4))
 ## [3.0.0](https://github.com/powerfullz/override-rules/compare/src-v2.5.7...src-v3.0.0) (2026-08-03)
 
 
