@@ -5,10 +5,10 @@ export const ruleProviders: Record<string, RuleProvider> = {
     ADBlock: {
         type: "http",
         behavior: "domain",
-        format: "yaml",
+        format: "mrs",
         interval: 86400,
-        url: `${CDN_URL}/gh/217heidai/adblockfilters@main/rules/adblockmihomolite.yaml`,
-        path: "./ruleset/ADBlock.yaml",
+        url: `${CDN_URL}/gh/217heidai/adblockfilters@main/rules/adblockmihomolite.mrs`,
+        path: "./ruleset/ADBlock.mrs",
     },
     SogouInput: {
         type: "http",
@@ -41,6 +41,22 @@ export const ruleProviders: Record<string, RuleProvider> = {
         interval: 86400,
         url: `${CDN_URL}/gh/powerfullz/override-rules@master/ruleset/AdditionalCDNResources.list`,
         path: "./ruleset/AdditionalCDNResources.list",
+    },
+    ChinaDirect: {
+        type: "http",
+        behavior: "domain",
+        format: "yaml",
+        interval: 86400,
+        url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt",
+        path: "./ruleset/ChinaDirect.yaml",
+    },
+    ChinaIP: {
+        type: "http",
+        behavior: "ipcidr",
+        format: "yaml",
+        interval: 86400,
+        url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt",
+        path: "./ruleset/ChinaIP.yaml",
     },
     GFWList: {
         type: "http",

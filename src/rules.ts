@@ -38,7 +38,9 @@ const baseRules = [
     `RULE-SET,CDNResources,${PROXY_GROUPS.STATIC_RESOURCES}`,
     `RULE-SET,AdditionalCDNResources,${PROXY_GROUPS.STATIC_RESOURCES}`,
     `RULE-SET,GFWList,${PROXY_GROUPS.SELECT}`,
+    `RULE-SET,ChinaDirect,DIRECT`,
     `GEOIP,cn,DIRECT`,
+    `RULE-SET,ChinaIP,DIRECT,no-resolve`,
     `MATCH,${PROXY_GROUPS.FINAL}`,
 ];
 

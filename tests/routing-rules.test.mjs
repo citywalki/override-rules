@@ -5,17 +5,16 @@ import vm from "node:vm";
 
 const script = await readFile(new URL("../convert.js", import.meta.url), "utf8");
 
-function convert(args = {}) {
+function convert(
+    args = {},
+    proxies = [
+        { name: "香港 01", type: "ss", server: "hk.example.com", port: 443 },
+        { name: "美国 01", type: "ss", server: "us.example.com", port: 443 },
+    ]
+) {
     const context = { $arguments: { grouptype: "0", ...args } };
     vm.runInNewContext(script, context);
-    return structuredClone(
-        context.main({
-            proxies: [
-                { name: "香港 01", type: "ss", server: "hk.example.com", port: 443 },
-                { name: "美国 01", type: "ss", server: "us.example.com", port: 443 },
-            ],
-        })
-    );
+    return structuredClone(context.main({ proxies }));
 }
 
 function ruleIndex(rules, rule) {
@@ -57,6 +56,28 @@ test("builds the streamlined routing groups and providers", () => {
     }
 });
 
+test("ships only the geo databases the rules actually use", () => {
+    const result = convert();
+    assert.deepEqual(Object.keys(result["geox-url"]).sort(), ["geoip", "geosite"]);
+});
+
+test("uses the binary mrs format for the adblock provider", () => {
+    const adblock = convert()["rule-providers"].ADBlock;
+    assert.equal(adblock.format, "mrs");
+    assert.match(adblock.url, /\.mrs$/);
+    assert.match(adblock.path, /\.mrs$/);
+});
+
+test("enables geo auto-update for full configs only", () => {
+    const full = convert({ full: "true" });
+    assert.equal(full["geo-auto-update"], true);
+    assert.equal(full["geo-update-interval"], 24);
+
+    const minimal = convert();
+    assert.equal(minimal["geo-auto-update"], undefined);
+    assert.equal(minimal["geo-update-interval"], undefined);
+});
+
 test("orders domestic, service, static, GFW, IP and final routing layers", () => {
     const { rules } = convert();
 
@@ -69,7 +90,9 @@ test("orders domestic, service, static, GFW, IP and final routing layers", () =>
     const youtube = ruleIndex(rules, "GEOSITE,youtube,Youtube");
     const staticResources = ruleIndex(rules, "RULE-SET,StaticResources,静态资源");
     const gfw = ruleIndex(rules, "RULE-SET,GFWList,选择代理");
+    const chinaDirect = ruleIndex(rules, "RULE-SET,ChinaDirect,DIRECT");
     const domesticIp = ruleIndex(rules, "GEOIP,cn,DIRECT");
+    const chinaIp = ruleIndex(rules, "RULE-SET,ChinaIP,DIRECT,no-resolve");
     const final = ruleIndex(rules, "MATCH,Final");
 
     assert.ok(privateDomain < privateIp);
@@ -80,7 +103,11 @@ test("orders domestic, service, static, GFW, IP and final routing layers", () =>
     assert.ok(ai < youtube);
     assert.ok(youtube < staticResources);
     assert.ok(staticResources < gfw);
-    assert.ok(gfw < domesticIp);
+    // 被墙域名即使解析出国内 IP 也必须优先走代理，因此 GFWList 位于国内直连兜底之前
+    assert.ok(gfw < chinaDirect);
+    assert.ok(chinaDirect < domesticIp);
+    assert.ok(domesticIp < chinaIp);
+    assert.ok(chinaIp < final);
     assert.equal(final, rules.length - 1);
 
     assert.equal(
@@ -88,6 +115,67 @@ test("orders domestic, service, static, GFW, IP and final routing layers", () =>
         false
     );
     assert.equal(rules.includes("GEOSITE,weibo,新浪微博"), false);
+});
+
+test("ships independent China fallback rule sets from Loyalsoldier", () => {
+    const { "rule-providers": providers } = convert();
+
+    assert.deepEqual(
+        {
+            type: providers.ChinaDirect.type,
+            behavior: providers.ChinaDirect.behavior,
+            format: providers.ChinaDirect.format,
+            interval: providers.ChinaDirect.interval,
+            url: providers.ChinaDirect.url,
+        },
+        {
+            type: "http",
+            behavior: "domain",
+            format: "yaml",
+            interval: 86400,
+            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt",
+        }
+    );
+    assert.deepEqual(
+        {
+            type: providers.ChinaIP.type,
+            behavior: providers.ChinaIP.behavior,
+            format: providers.ChinaIP.format,
+            interval: providers.ChinaIP.interval,
+            url: providers.ChinaIP.url,
+        },
+        {
+            type: "http",
+            behavior: "ipcidr",
+            format: "yaml",
+            interval: 86400,
+            url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt",
+        }
+    );
+});
+
+test("splits DNS resolution between domestic nameservers and overseas DoH", () => {
+    for (const result of [convert({ fakeip: "true" }), convert({ fakeip: "false" })]) {
+        const policy = result.dns["nameserver-policy"];
+        assert.ok(policy, "缺少 nameserver-policy");
+        assert.ok(Array.isArray(policy["geosite:cn"]) && policy["geosite:cn"].length > 0);
+        assert.ok(
+            Array.isArray(policy["geosite:geolocation-!cn"]) &&
+                policy["geosite:geolocation-!cn"].length > 0
+        );
+    }
+});
+
+test("keeps doggy DNS policy ahead of the domestic split", () => {
+    const result = convert({ doggyDns: "true" }, [
+        { name: "狗狗机场", type: "ss", server: "vip.quandao.com", port: 443, password: "token" },
+    ]);
+    const keys = Object.keys(result.dns["nameserver-policy"]);
+
+    // 具体域名键优先于 geosite 集合键，因此 doggy 键必须排在最前
+    assert.deepEqual(keys.slice(0, 2), ["+.quandao.com", "+.jiandaoyun.com"]);
+    assert.ok(keys.includes("geosite:cn"));
+    assert.ok(keys.includes("geosite:geolocation-!cn"));
 });
 
 test("uses maintained GeoSite rules and inline compatibility overrides", () => {

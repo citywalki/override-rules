@@ -7,7 +7,6 @@ import type { DnsConfig, ProxyNode, SnifferConfig } from "./types";
 const FAKE_IP_FILTER = [
     "geosite:private",
     "geosite:connectivity-check",
-    "Mijia Cloud",
     "dig.io.mi.com",
     "localhost.ptlogin2.qq.com",
     "*.icloud.com",
@@ -33,7 +32,7 @@ export const snifferConfig: SnifferConfig = {
     "override-destination": false,
     enable: true,
     "force-dns-mapping": true,
-    "skip-domain": ["Mijia Cloud", "dlg.io.mi.com", "+.push.apple.com"],
+    "skip-domain": ["dlg.io.mi.com", "+.push.apple.com"],
 };
 
 /**
@@ -45,6 +44,22 @@ interface BuildDnsConfigInput {
     preferH3: boolean;
     fakeIpFilter?: string[];
 }
+
+/**
+ * 国内权威 DNS：保证国内域名解析出中国大陆 IP，使 `GEOIP,cn` 判定成立。
+ */
+const CN_NAMESERVERS = ["223.5.5.5", "119.29.29.29", "180.184.1.1"];
+
+/**
+ * 海外加密 DNS：解析结果可信，兼作 `fallback` 与境外域名的 policy 解析服务器。
+ */
+const OVERSEAS_NAMESERVERS = [
+    "quic://dns0.eu",
+    "https://dns.cloudflare.com/dns-query",
+    "https://dns.sb/dns-query",
+    "tcp://208.67.222.222",
+    "tcp://8.26.56.2",
+];
 
 /**
  * 构建 Clash DNS 配置对象。
@@ -66,14 +81,14 @@ function buildDnsConfig({
         "prefer-h3": preferH3,
         "enhanced-mode": mode,
         "default-nameserver": ["119.29.29.29", "223.5.5.5"],
-        nameserver: ["system", "223.5.5.5", "119.29.29.29", "180.184.1.1"],
-        fallback: [
-            "quic://dns0.eu",
-            "https://dns.cloudflare.com/dns-query",
-            "https://dns.sb/dns-query",
-            "tcp://208.67.222.222",
-            "tcp://8.26.56.2",
-        ],
+        nameserver: ["system", ...CN_NAMESERVERS],
+        fallback: OVERSEAS_NAMESERVERS,
+        // 国内域名由国内权威 DNS 解析（policy 命中返回真实 IP，GEOIP,cn 可直接判定）；
+        // 境外域名直连海外加密 DNS，避免国内 DNS 污染。具体域名键优先于 geosite 集合键。
+        "nameserver-policy": {
+            "geosite:cn": CN_NAMESERVERS,
+            "geosite:geolocation-!cn": OVERSEAS_NAMESERVERS,
+        },
     };
 
     if (fakeIpFilter) {
@@ -162,7 +177,11 @@ export function buildDns({
     if (doggyDnsEnabled && source?.["nameserver-policy"] === undefined) {
         const doggyGoPolicy = buildDoggyGoNameserverPolicy(proxies);
         if (doggyGoPolicy) {
-            config["nameserver-policy"] = doggyGoPolicy;
+            // 具体域名键优先于 geosite 集合键，doggy 键必须排在默认分流之前
+            config["nameserver-policy"] = {
+                ...doggyGoPolicy,
+                ...config["nameserver-policy"],
+            };
         }
     }
 

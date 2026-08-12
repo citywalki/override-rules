@@ -129,13 +129,17 @@ flowchart TD
 
 ### 分流优先级
 
-`buildRules()` 按照“越确定越优先”的顺序生成规则：本机与局域网 → 协议开关 → 隐私与广告 → 兼容性直连 → 国内服务直连 → 境外专项服务 → 静态资源 → GFW 安全网 → 中国大陆 IP 兜底 → `MATCH`。
+`buildRules()` 按照“越确定越优先”的顺序生成规则：本机与局域网 → 协议开关 → 隐私与广告 → 兼容性直连 → 国内服务直连 → 境外专项服务 → 静态资源 → GFW 安全网 → 国内直连域名兜底 → 中国大陆 IP 兜底 → 国内 IP 段第二来源 → `MATCH`。
 
 - 国内服务统一由 `GEOSITE,cn,DIRECT` 处理，不为哔哩哔哩、微博等国内服务生成独立策略组。
 - 境外 AI 使用 `GEOSITE,category-ai-!cn`，加密货币使用 `GEOSITE,category-cryptocurrency`；服务规则优先于通用静态资源，保证同一服务出口一致。
 - Steam、Google FCM、Google Play 中国服务、Microsoft 中国服务与 Apple 中国服务的明确直连规则位于对应厂商大类之前。
-- `GFWList` 位于 `GEOIP,cn` 之前，避免已知受阻域名因异常解析到中国大陆 IP 而误直连；`MATCH` 始终作为最后一条兜底。
+- `GFWList` 位于 `ChinaDirect` 之前，避免已知受阻域名被直连规则集误直连；`ChinaDirect`（Loyalsoldier direct.txt）与 `ChinaIP`（cncidr.txt）是 `geosite:cn`/`geoip:cn` 之外的独立第二数据源，即使 geodata 更新失败仍能兜住国内流量；`MATCH` 始终作为最后一条兜底。
 - `quic=false` 时，公网 UDP 443 会被拒绝，DNS 同时关闭 `prefer-h3`；局域网规则位于 QUIC 规则之前。
+
+### DNS 分流
+
+`buildDnsConfig()` 通过 `nameserver-policy` 实现解析分流：`geosite:cn` 域名固定由国内权威 DNS（223.5.5.5 / 119.29.29.29 / 180.184.1.1）解析，policy 命中的查询返回真实 IP，使 `GEOIP,cn` 可直接判定直连；`geosite:geolocation-!cn` 域名直连海外加密 DNS，绕开国内 DNS 污染与 fallback 判定延迟。doggyDns 的具体域名键排在默认分流键之前，保证更具体的策略优先命中。
 
 ### YAML Generator 的参数
 

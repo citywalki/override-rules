@@ -8,6 +8,7 @@
 
 * 集成 [SukkaW/Surge](https://github.com/SukkaW/Surge) 与 [217heidai/adblockfilters](https://github.com/217heidai/adblockfilters) 等优质规则，兼容性强，覆盖面广。
 * 国内服务统一直连，境外 AI、流媒体、社交平台及加密货币等按需独立分流，避免无用策略组干扰日常选择。
+* 国内流量多层兜底：国内域名固定由国内权威 DNS 解析、域名与 IP 双规则集兜底（`geosite:cn`/`geoip:cn` + Loyalsoldier `direct.txt`/`cncidr.txt`），最大限度直连，不落入代理兜底。
 * 精简冗余，结构清晰，维护便捷。
 * 深度融合 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat) GeoSite/GeoIP，分流更精准。
 * IP 规则默认添加 `no-resolve`，有效减少本地 DNS 解析，提升速度与隐私。
