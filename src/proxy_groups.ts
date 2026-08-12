@@ -195,12 +195,6 @@ export function buildProxyGroups({
                 : defaultProxies,
         },
         {
-            name: PROXY_GROUPS.PIKPAK,
-            icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/PikPak.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
             name: PROXY_GROUPS.SOGOU_INPUT,
             icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/Sougou.png`,
             type: "select",

@@ -29,7 +29,6 @@ const baseRules = [
     `GEOSITE,telegram,${PROXY_GROUPS.TELEGRAM}`,
     `GEOIP,telegram,${PROXY_GROUPS.TELEGRAM},no-resolve`,
     `GEOSITE,twitter,${PROXY_GROUPS.TWITTER}`,
-    `GEOSITE,pikpak,${PROXY_GROUPS.PIKPAK}`,
     `GEOSITE,xbox,${PROXY_GROUPS.XBOX}`,
     `GEOSITE,github,${PROXY_GROUPS.GITHUB}`,
     `GEOSITE,apple,${PROXY_GROUPS.APPLE}`,

@@ -28,7 +28,15 @@ test("builds the streamlined routing groups and providers", () => {
     const result = convert();
     const groupNames = result["proxy-groups"].map(({ name }) => name);
 
-    for (const removed of ["SSH", "哔哩哔哩", "巴哈姆特", "E-Hentai", "TikTok", "新浪微博"]) {
+    for (const removed of [
+        "SSH",
+        "哔哩哔哩",
+        "巴哈姆特",
+        "E-Hentai",
+        "TikTok",
+        "新浪微博",
+        "PikPak网盘",
+    ]) {
         assert.equal(groupNames.includes(removed), false, `不应生成策略组：${removed}`);
     }
 

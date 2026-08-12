@@ -32,7 +32,6 @@ export const PROXY_GROUPS = {
     TRUTH_SOCIAL: "Truth Social",
     TWITTER: "Twitter",
     TWITCH: "Twitch",
-    PIKPAK: "PikPak网盘",
     SOGOU_INPUT: "搜狗输入法",
     AD_BLOCK: "广告拦截",
     GLOBAL: "GLOBAL",
